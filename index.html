@@ -1,0 +1,1125 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>产品开发提案 · 讲解稿</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --bg-card: #141420;
+  --bg-card-2: #1a1a2e;
+  --text: #e8e8ed;
+  --text-dim: #8888a0;
+  --text-muted: #5a5a72;
+  --accent: #4a9eff;
+  --accent2: #7c5cff;
+  --green: #2dd4a0;
+  --orange: #ff8c42;
+  --red: #ff4d6a;
+  --gold: #f5c842;
+  --border: #2a2a3e;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.deck { height: 100vh; width: 100vw; display: flex; flex-direction: column; }
+
+.stage {
+  flex: 1;
+  overflow-y: auto;
+  padding: 56px 80px 24px;
+}
+
+.slide {
+  max-width: 1100px;
+  margin: 0 auto;
+  min-height: calc(100vh - 140px);
+  display: none;
+  flex-direction: column;
+}
+.slide.active { display: flex; }
+
+.section-num {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+h1.title {
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #fff 0%, #b8b8d0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+p.lead {
+  font-size: 19px;
+  color: var(--text-dim);
+  margin-bottom: 36px;
+  max-width: 800px;
+  line-height: 1.55;
+}
+
+/* ── Cover ── */
+.cover {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: radial-gradient(circle at 50% 30%, rgba(74, 158, 255, 0.12), transparent 60%);
+}
+.cover .tag {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--accent);
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+}
+.cover h1 {
+  font-size: 64px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #fff 0%, #4a9eff 50%, #7c5cff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cover .subtitle {
+  font-size: 22px;
+  color: var(--text-dim);
+  margin-bottom: 48px;
+}
+.cover .meta {
+  font-size: 14px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+.cover .hint {
+  margin-top: 64px;
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+/* ── One-liner emphasis ── */
+.big-statement {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.3px;
+  padding: 32px 40px;
+  border-left: 4px solid var(--accent);
+  background: var(--bg-card);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin: 24px 0;
+}
+.big-statement em {
+  font-style: normal;
+  color: var(--accent);
+}
+.big-statement .accent2 { color: var(--accent2); }
+.big-statement .gold { color: var(--gold); }
+
+/* ── 比喻双卡 ── */
+.metaphor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 16px;
+}
+.metaphor-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+.metaphor-card h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: var(--accent);
+}
+.metaphor-card p { color: var(--text-dim); font-size: 15px; }
+.metaphor-card .role {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+/* ── 三块 benefit cards ── */
+.benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 16px;
+}
+.benefit-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.benefit-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: var(--card-color, var(--accent));
+}
+.benefit-card .num {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--card-color, var(--accent));
+  line-height: 1;
+  margin-bottom: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.benefit-card h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.benefit-card p {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.55;
+}
+
+/* ── 公式块 ── */
+.formula {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 22px;
+  text-align: center;
+  margin: 16px 0 24px;
+  letter-spacing: 0.5px;
+}
+.formula .var { color: var(--accent); font-weight: 600; }
+.formula .var2 { color: var(--accent2); font-weight: 600; }
+.formula .const { color: var(--gold); font-weight: 600; }
+.formula .op { color: var(--text-dim); margin: 0 8px; }
+.formula .annot {
+  display: block;
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: -apple-system, "PingFang SC", sans-serif;
+  letter-spacing: 0;
+}
+
+/* ── 节点表 ── */
+.node-table {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.node-table > div {
+  background: var(--bg-card);
+  padding: 20px 18px;
+}
+.node-table .head {
+  background: var(--bg-card-2);
+  font-size: 13px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.node-table .node {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.node-table .pts {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── 赛道选择 ── */
+.track-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 16px;
+}
+.track-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+.track-card.attack { border-color: var(--orange); }
+.track-card.explore { border-color: var(--accent2); }
+.track-card .pts {
+  font-size: 36px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.track-card.attack .pts { color: var(--orange); }
+.track-card.explore .pts { color: var(--accent2); }
+.track-card h3 { font-size: 22px; margin: 8px 0 16px; }
+.track-card ul { list-style: none; }
+.track-card li {
+  font-size: 14px;
+  color: var(--text-dim);
+  padding: 6px 0;
+  padding-left: 16px;
+  position: relative;
+}
+.track-card li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ── 硬软项表 ── */
+.req-table {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.req-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 100px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+}
+.req-row:last-child { border-bottom: none; }
+.req-row .label {
+  padding: 16px 20px;
+  background: var(--bg-card-2);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+.req-row .label.hard { color: var(--red); }
+.req-row .label.soft { color: var(--green); }
+.req-row .desc {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.55;
+  display: flex;
+  align-items: center;
+}
+.req-row .pts {
+  padding: 16px 20px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* ── 加成 4 档条形图 ── */
+.bar-chart { margin-top: 16px; }
+.bar-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 80px 100px;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.bar-row:last-child { border-bottom: none; }
+.bar-row .range {
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+.bar-row .bar {
+  height: 28px;
+  border-radius: 4px;
+  background: var(--bar-color, var(--accent));
+  position: relative;
+  transition: width 0.5s;
+}
+.bar-row .label {
+  font-size: 14px;
+  font-weight: 600;
+}
+.bar-row .pts {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold);
+}
+.bar-row.fail .pts { color: var(--red); }
+.bar-row.fail .bar { background: var(--red); opacity: 0.4; }
+
+/* ── 百分比表 ── */
+.pct-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 20px 0;
+}
+.pct-table > div {
+  background: var(--bg-card);
+  padding: 16px 18px;
+  font-variant-numeric: tabular-nums;
+}
+.pct-table .head {
+  background: var(--bg-card-2);
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.pct-table .highlight {
+  background: rgba(245, 200, 66, 0.08);
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* ── 上限可视化 ── */
+.cap-viz {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  margin: 16px 0;
+}
+.cap-bar {
+  height: 48px;
+  background: var(--bg-card-2);
+  border-radius: 8px;
+  position: relative;
+  margin: 24px 0 16px;
+  overflow: hidden;
+}
+.cap-actual {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  width: 87.8%;
+}
+.cap-cutoff {
+  position: absolute;
+  top: -6px; bottom: -6px;
+  width: 3px;
+  background: var(--gold);
+  left: 62.7%;
+}
+.cap-cutoff::after {
+  content: '上限 1800';
+  position: absolute;
+  top: -22px;
+  left: 8px;
+  font-size: 12px;
+  color: var(--gold);
+  white-space: nowrap;
+  font-weight: 600;
+}
+.cap-legend {
+  display: flex;
+  gap: 24px;
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: 28px;
+}
+.cap-legend .swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  margin-right: 6px;
+  vertical-align: -1px;
+}
+
+/* ── 双栏对比 ── */
+.split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 16px;
+}
+.split-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  background: var(--bg-card);
+}
+.split-card.danger { border-color: var(--red); }
+.split-card.warn { border-color: var(--orange); }
+.split-card h3 {
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+.split-card.danger h3 { color: var(--red); }
+.split-card.warn h3 { color: var(--orange); }
+.split-card ul { list-style: none; }
+.split-card li {
+  font-size: 14px;
+  padding: 6px 0 6px 18px;
+  color: var(--text-dim);
+  position: relative;
+}
+.split-card li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* ── 算例表 ── */
+.case-table {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 16px 0;
+}
+.case-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px 100px 120px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  font-variant-numeric: tabular-nums;
+}
+.case-row:last-child { border-bottom: none; }
+.case-row > div { padding: 12px 16px; font-size: 14px; }
+.case-row.head {
+  background: var(--bg-card-2);
+  color: var(--text-dim);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.case-row.boom { background: rgba(245, 200, 66, 0.06); }
+.case-row.boom .label { color: var(--gold); font-weight: 600; }
+.case-row.fail { background: rgba(255, 77, 106, 0.05); }
+.case-row.fail .label { color: var(--red); font-weight: 600; }
+.case-row .pts {
+  text-align: right;
+  font-weight: 600;
+  color: var(--gold);
+}
+.case-summary {
+  margin-top: 20px;
+  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  text-align: center;
+}
+.case-summary .item .lbl {
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.case-summary .item .val {
+  font-size: 28px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin-top: 4px;
+}
+.case-summary .item:nth-child(1) .val { color: var(--accent); }
+.case-summary .item:nth-child(2) .val { color: var(--accent2); }
+.case-summary .item:nth-child(3) .val { color: var(--green); }
+.case-summary .item:nth-child(4) .val { color: var(--gold); font-size: 36px; }
+
+/* ── 自检 5 问 ── */
+.check-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+.check-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  position: relative;
+  padding-left: 64px;
+}
+.check-item .n {
+  position: absolute;
+  left: 20px; top: 22px;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.check-item .q { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+.check-item .a { font-size: 13px; color: var(--text-dim); }
+
+/* ── 收尾 ── */
+.outro {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.outro .quote {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.5;
+  max-width: 800px;
+  letter-spacing: -0.3px;
+}
+.outro .quote em {
+  font-style: normal;
+  color: var(--accent);
+}
+.outro .signoff {
+  margin-top: 56px;
+  font-size: 14px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+/* ── Nav ── */
+.nav {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 32px;
+  background: rgba(10, 10, 15, 0.92);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+}
+.nav-btn {
+  width: 36px; height: 36px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.nav-btn:hover:not(:disabled) { background: var(--bg-card); border-color: var(--accent); }
+.nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.nav-dots { display: flex; gap: 6px; }
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.nav-dot.active { background: var(--accent); width: 24px; border-radius: 4px; }
+.nav-dot.visited { background: var(--accent2); }
+.nav-counter {
+  color: var(--text-dim);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  min-width: 60px;
+  text-align: center;
+}
+.click-zone {
+  position: fixed;
+  top: 0; bottom: 60px;
+  width: 80px;
+  cursor: pointer;
+  z-index: 5;
+}
+.click-left { left: 0; }
+.click-right { right: 0; }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="deck">
+  <div class="click-zone click-left" onclick="prev()"></div>
+  <div class="click-zone click-right" onclick="next()"></div>
+
+  <div class="stage">
+
+    <!-- 0: 封面 -->
+    <section class="slide cover active">
+      <div class="tag">YY_024 · 运营组件</div>
+      <h1>产品开发提案</h1>
+      <p class="subtitle">价值规则 · 15 分钟讲透</p>
+      <p class="meta">神神秘秘(东莞市)电子商务有限公司 · v1.0</p>
+      <p class="hint">按 → 键 / 点击右侧空白翻页</p>
+    </section>
+
+    <!-- 1: 一句话 -->
+    <section class="slide">
+      <div class="section-num">01 · 这件事讲什么</div>
+      <h1 class="title">一句话讲完</h1>
+      <p class="lead">在动手做产品之前，先把市场机会变成一份"提案"。</p>
+      <div class="big-statement">
+        你看到一个机会 <em>→</em> 写一份合格提案 <em>→</em>
+        公司给你<span class="accent2">独占销售权</span> <em>+</em>
+        <span class="gold">价值分</span>
+      </div>
+      <p style="color: var(--text-dim); font-size: 16px; margin-top: 16px;">
+        卖得越好，分越多；卖不动，独占权回收，提案关闭，<strong style="color: var(--text);">但人不被罚</strong>。
+      </p>
+    </section>
+
+    <!-- 2: 比喻 -->
+    <section class="slide">
+      <div class="section-num">02 · 先讲一个画面</div>
+      <h1 class="title">两个比喻，挑你喜欢的记住</h1>
+      <p class="lead">本质都一样：你不是在帮公司打工，是用公司的资源开自己的小生意。</p>
+      <div class="metaphor-grid">
+        <div class="metaphor-card">
+          <div class="role">比喻 A</div>
+          <h3>淘金人 + 矿权租约</h3>
+          <p>你在山里转，发现某条河沟有金子。回来打一份"勘探报告"，公司审完发给你<strong style="color: var(--text);">这条河沟的矿权租约</strong>。租约按月续——每月挖出多少金子，决定下个月租约还在不在你手里。</p>
+        </div>
+        <div class="metaphor-card">
+          <div class="role">比喻 B</div>
+          <h3>经纪人 + 艺人独家代理</h3>
+          <p>你看上一个艺人（一款产品），写"价值分析"递上去。平台同意签约，把<strong style="color: var(--text);">独家代理权</strong>给你——只在你指定的 1-3 个剧场（渠道）。艺人卖座你拿分成；卖不动平台收回。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3: 三种好处 -->
+    <section class="slide">
+      <div class="section-num">03 · 组件给你什么</div>
+      <h1 class="title">三种好处</h1>
+      <p class="lead">提案通过的那一刻，你拿到的不只是一笔奖金。</p>
+      <div class="benefit-grid">
+        <div class="benefit-card" style="--card-color: var(--accent);">
+          <div class="num">01</div>
+          <h3>独占权</h3>
+          <p>你提案的 SKU，在你指定的 1–3 个渠道，<strong style="color: var(--text);">别人不能碰、公司也不会再分配。</strong></p>
+        </div>
+        <div class="benefit-card" style="--card-color: var(--green);">
+          <div class="num">02</div>
+          <h3>每月躺赢分</h3>
+          <p>只要在你的渠道卖得好，系统每月 1 号自动结算打分，<strong style="color: var(--text);">最高 +210 分 / 月</strong>。</p>
+        </div>
+        <div class="benefit-card" style="--card-color: var(--gold);">
+          <div class="num">03</div>
+          <h3>里程碑大奖</h3>
+          <p>季度最佳 +100、爆品认证 +300、被授权 +50。做出真正的爆品，<strong style="color: var(--text);">一次性兑现。</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4: 价值公式 + 三节点 -->
+    <section class="slide">
+      <div class="section-num">04 · 全貌</div>
+      <h1 class="title">价值公式 + 三个发钱节点</h1>
+      <p class="lead">整个组件围绕一条公式转，分三次给到你。</p>
+      <div class="formula">
+        <span class="const">价值分</span>
+        <span class="op">=</span>
+        <span class="var">基准价值</span>
+        <span class="op">×</span>
+        <span class="var2">质量系数</span>
+        <span class="op">+</span>
+        <span class="var">效果加成</span>
+        <span class="annot">v1.0 质量系数固定 = 1.0；效果加成分两笔结算</span>
+      </div>
+      <div class="node-table">
+        <div class="head">节点</div>
+        <div class="head">触发条件</div>
+        <div class="head">何时到账</div>
+        <div class="head">分值</div>
+        <div class="node">N1</div>
+        <div>提案通过联审</div>
+        <div>通过当天</div>
+        <div class="pts">300 / 200</div>
+        <div class="node">N2</div>
+        <div>独占渠道月度销售</div>
+        <div>每月 1 号自动结算</div>
+        <div class="pts">0 – 210 / 月</div>
+        <div class="node">N3</div>
+        <div>里程碑触发（季度最佳 / 爆品认证 / 被授权）</div>
+        <div>季度评审或年终</div>
+        <div class="pts">50 / 100 / 300</div>
+      </div>
+    </section>
+
+    <!-- 5: N1 选赛道 -->
+    <section class="slide">
+      <div class="section-num">05 · N1 写提案</div>
+      <h1 class="title">第一步：选赛道</h1>
+      <p class="lead">市场已经有同类爆品 → 抢占型；市场基本是空白 → 探索型。</p>
+      <div class="track-grid">
+        <div class="track-card attack">
+          <div class="pts">300</div>
+          <h3>抢占型</h3>
+          <ul>
+            <li>市场已有同类爆品，你来做更好的</li>
+            <li>必须对标 ≥ 3 款同类产品</li>
+            <li>差异化主张要写得很硬</li>
+            <li>基础分高，但门槛也高</li>
+          </ul>
+        </div>
+        <div class="track-card explore">
+          <div class="pts">200</div>
+          <h3>探索型</h3>
+          <ul>
+            <li>市场基本是空白，你赌一个新可能</li>
+            <li>对标 < 3 款也行，但要给"为什么是空白"的硬理由</li>
+            <li>更鼓励原创洞察</li>
+            <li>基础分低，但允许试错</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6: N1 3硬2软 -->
+    <section class="slide">
+      <div class="section-num">05 · N1 写提案</div>
+      <h1 class="title">第二步：交 3 硬 + 2 软</h1>
+      <p class="lead">硬项缺一就 0 分；软项独立计分，敷衍填等于 0。</p>
+      <div class="req-table">
+        <div class="req-row">
+          <div class="label hard">硬 1</div>
+          <div class="desc"><strong style="color:var(--text)">真实需求证据：</strong>客户原话 ≥ 3 条 / 搜索量截图 / 竞品热销数据 / 退货统计 ≥ 10 单 / 社媒热议 ≥ 3 条（任选 1 类）。<strong style="color: var(--red)">不接受"我觉得"。</strong></div>
+          <div class="pts">必交</div>
+        </div>
+        <div class="req-row">
+          <div class="label hard">硬 2</div>
+          <div class="desc"><strong style="color:var(--text)">竞争差异：</strong>抢占型 ≥ 3 款对标表（链接 / 售价 / 评分 / Top3 差评）+ 1–3 条差异化主张。</div>
+          <div class="pts">必交</div>
+        </div>
+        <div class="req-row">
+          <div class="label hard">硬 3</div>
+          <div class="desc"><strong style="color:var(--text)">用户锁定：</strong>一个具体人群标签 + "为什么是他们" 1 段。<strong style="color: var(--red)">禁写"所有人 / 通用"。</strong></div>
+          <div class="pts">必交</div>
+        </div>
+        <div class="req-row">
+          <div class="label soft">软 1</div>
+          <div class="desc"><strong style="color:var(--text)">单位经济粗估：</strong>预估零售价 / 成本 / 毛利率 / 月潜在销量 / 回本月数 / 假设来源。</div>
+          <div class="pts">+50 / +35</div>
+        </div>
+        <div class="req-row">
+          <div class="label soft">软 2</div>
+          <div class="desc"><strong style="color:var(--text)">推广策略雏形：</strong>卖点话术 3 条 / 视觉方向 / 主推尺寸 / 开篇价格策略。</div>
+          <div class="pts">+40 / +25</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7: N2 step1 组基准线 -->
+    <section class="slide">
+      <div class="section-num">06 · N2 卖货的钱</div>
+      <h1 class="title">第一步：算出你的"组基准线"</h1>
+      <p class="lead">公司不拍脑袋定 KPI，用品牌过去 6 个月的真实数据当基线。</p>
+      <div class="formula">
+        <span class="var">U</span>（单渠道月均）
+        <span class="op">=</span>
+        品牌全部 SKU 6 个月总销量
+        <span class="op">÷</span>
+        <span class="var2">(在售渠道数 × 6)</span>
+        <span class="annot">
+          组基准线 = U × 你独占的渠道数
+        </span>
+      </div>
+      <div class="big-statement" style="font-size: 20px; padding: 24px 32px;">
+        例：Korym 6 月总销 4500 件，铺 15 个渠道<br>
+        → U_Korym = 4500 ÷ (15 × 6) = <em>50 件 / 渠道 / 月</em><br>
+        你拿 3 个渠道 → 组基准线 = <span class="gold">150 件 / 月</span>
+      </div>
+    </section>
+
+    <!-- 8: N2 step2 M值 4档加成 -->
+    <section class="slide">
+      <div class="section-num">06 · N2 卖货的钱</div>
+      <h1 class="title">第二步：每月 1 号系统算 M 值</h1>
+      <p class="lead">M = 你这组渠道当月该 SKU 总销量 ÷ 组基准线（抢占型示例）</p>
+      <div class="bar-chart">
+        <div class="bar-row" style="--bar-color: var(--gold);">
+          <div class="range">M ≥ 2.0</div>
+          <div class="bar" style="width: 100%;"></div>
+          <div class="label" style="color: var(--gold);">爆款</div>
+          <div class="pts">+210</div>
+        </div>
+        <div class="bar-row" style="--bar-color: var(--green);">
+          <div class="range">1.5 – 2.0</div>
+          <div class="bar" style="width: 57%;"></div>
+          <div class="label" style="color: var(--green);">优秀</div>
+          <div class="pts">+120</div>
+        </div>
+        <div class="bar-row" style="--bar-color: var(--accent);">
+          <div class="range">1.2 – 1.5</div>
+          <div class="bar" style="width: 28.5%;"></div>
+          <div class="label" style="color: var(--accent);">良好</div>
+          <div class="pts">+60</div>
+        </div>
+        <div class="bar-row" style="--bar-color: var(--accent2);">
+          <div class="range">1.0 – 1.2</div>
+          <div class="bar" style="width: 14%;"></div>
+          <div class="label" style="color: var(--accent2);">达标</div>
+          <div class="pts">+30</div>
+        </div>
+        <div class="bar-row fail">
+          <div class="range">M < 1.0</div>
+          <div class="bar" style="width: 8%;"></div>
+          <div class="label" style="color: var(--red);">失守</div>
+          <div class="pts">独占失效</div>
+        </div>
+      </div>
+      <p style="color: var(--text-muted); font-size: 13px; margin-top: 16px;">
+        探索型同档位为 140 / 80 / 40 / 20，规律完全一致。
+      </p>
+    </section>
+
+    <!-- 9: 设计哲学 70% -->
+    <section class="slide">
+      <div class="section-num">07 · 设计拆解</div>
+      <h1 class="title">爆款档为什么是 70%，不是 100%？</h1>
+      <p class="lead">所有档位都是基准价值的固定百分比——这不是巧合，是机制设计。</p>
+      <div class="pct-table">
+        <div class="head">档位</div>
+        <div class="head">抢占（基准 300）</div>
+        <div class="head">探索（基准 200）</div>
+        <div class="head">占基准比</div>
+        <div>达标</div><div>30</div><div>20</div><div>10%</div>
+        <div>良好</div><div>60</div><div>40</div><div>20%</div>
+        <div>优秀</div><div>120</div><div>80</div><div>40%</div>
+        <div class="highlight">爆款</div><div class="highlight">210</div><div class="highlight">140</div><div class="highlight">70%</div>
+      </div>
+      <div class="big-statement" style="font-size: 20px; padding: 24px 32px;">
+        如果给 100%：<span style="color: var(--red)">爆 1 个月 ≈ 再写 1 份新提案</span>，一线就盯着老 SKU 刷量，不再发现新机会。<br><br>
+        砍到 70%：<em>3 个月持续爆款 ≈ 2 份新提案的基础分</em>——既奖励持续爆款，也保留新提案的吸引力。
+      </div>
+    </section>
+
+    <!-- 10: 上限 ×6 -->
+    <section class="slide">
+      <div class="section-num">08 · 上限</div>
+      <h1 class="title">单款 SKU 一年最多拿 1800 / 1200</h1>
+      <p class="lead">理论上 12 个月连爆能拿 2870 分，但封顶 1800。</p>
+      <div class="cap-viz">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+          <span style="color: var(--text-dim); font-size: 13px;">理论最大值（抢占型，12 月连爆 + 全里程碑）</span>
+          <span style="color: var(--text); font-size: 18px; font-weight: 700;">2870 分</span>
+        </div>
+        <div class="cap-bar">
+          <div class="cap-actual"></div>
+          <div class="cap-cutoff"></div>
+        </div>
+        <div class="cap-legend">
+          <div><span class="swatch" style="background: linear-gradient(90deg, var(--accent), var(--accent2));"></span>理论最大值 2870 分</div>
+          <div><span class="swatch" style="background: var(--gold);"></span>实际封顶 1800 分（基准 × 6）</div>
+        </div>
+      </div>
+      <div class="big-statement" style="font-size: 20px; padding: 24px 32px;">
+        封顶后想继续涨价值分的<em>唯一办法：再交一份新提案</em>。<br>
+        上限的真正用途——<span class="gold">逼你去发现下一款，而不是躺在功劳簿上。</span>
+      </div>
+    </section>
+
+    <!-- 11: 熔断 vs 失守 -->
+    <section class="slide">
+      <div class="section-num">09 · 不要踩</div>
+      <h1 class="title">什么会让你拿不到分</h1>
+      <p class="lead">熔断和失守是两回事——一个真的伤人，一个只是舞台让出来。</p>
+      <div class="split-grid">
+        <div class="split-card danger">
+          <h3>熔断红线（人受罚）</h3>
+          <ul>
+            <li>3 硬缺一条 / 写了"我觉得"</li>
+            <li>客户原话造假 / 对标截图造假</li>
+            <li>与对标功能重合 ≥ 80% 且无差异（抄袭）</li>
+            <li>与他人提案高度雷同且不说明改进</li>
+            <li>失守后还占着渠道申报加成（追回已发）</li>
+          </ul>
+          <p style="margin-top: 14px; font-size: 13px; color: var(--red);">后果：0 分 + 6 个月内提案须管理岗预审</p>
+        </div>
+        <div class="split-card warn">
+          <h3>失守（独占没了，人不罚）</h3>
+          <ul>
+            <li>月底 M < 1.0 → 该组所有独占渠道转公开</li>
+            <li>别的组 M ≥ 1.0 → 自动继承独占权</li>
+            <li>全部组都失守 → SKU 整体公开，提案关闭</li>
+          </ul>
+          <p style="margin-top: 14px; font-size: 13px; color: var(--orange);">后果：独占权回收，但前面已发的分不收回，可以再交新提案</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12: 算例 -->
+    <section class="slide">
+      <div class="section-num">10 · 算例</div>
+      <h1 class="title">小王的半年账</h1>
+      <p class="lead">抢占型提案，3 个独占渠道，组基准线 = 150 件 / 月。</p>
+      <div class="case-table">
+        <div class="case-row head">
+          <div>月份</div><div class="label">事件</div><div>销量</div><div>M 值</div><div>本月加成</div>
+        </div>
+        <div class="case-row">
+          <div>4 月</div><div class="label">N1 提案通过</div><div>—</div><div>—</div><div class="pts">+300</div>
+        </div>
+        <div class="case-row">
+          <div>5 月</div><div class="label">良好</div><div>195</div><div>1.30</div><div class="pts">+60</div>
+        </div>
+        <div class="case-row">
+          <div>6 月</div><div class="label">优秀</div><div>240</div><div>1.60</div><div class="pts">+120</div>
+        </div>
+        <div class="case-row">
+          <div>7 月</div><div class="label">优秀 + 被授权 +50</div><div>285</div><div>1.90</div><div class="pts">+170</div>
+        </div>
+        <div class="case-row boom">
+          <div>8 月</div><div class="label">爆款！</div><div>320</div><div>2.13</div><div class="pts">+210</div>
+        </div>
+        <div class="case-row">
+          <div>9 月</div><div class="label">良好</div><div>180</div><div>1.20</div><div class="pts">+60</div>
+        </div>
+        <div class="case-row fail">
+          <div>10 月</div><div class="label">失守，独占回收</div><div>135</div><div>0.90</div><div class="pts">0</div>
+        </div>
+      </div>
+      <div class="case-summary">
+        <div class="item"><div class="lbl">N1</div><div class="val">300</div></div>
+        <div class="item"><div class="lbl">N2 累计</div><div class="val">570</div></div>
+        <div class="item"><div class="lbl">N3 累计</div><div class="val">50</div></div>
+        <div class="item"><div class="lbl">合计</div><div class="val">920</div></div>
+      </div>
+    </section>
+
+    <!-- 13: 5 问自检 -->
+    <section class="slide">
+      <div class="section-num">11 · 动手前</div>
+      <h1 class="title">提交前 5 问自检</h1>
+      <p class="lead">5 个全部能答得上来，再去写提案。</p>
+      <div class="check-list">
+        <div class="check-item">
+          <div class="n">1</div>
+          <div class="q">我能交出哪一类硬 1 证据？</div>
+          <div class="a">不是"我觉得"，必须是链接 / 截图 / 数据。</div>
+        </div>
+        <div class="check-item">
+          <div class="n">2</div>
+          <div class="q">我对标了几款同类爆品？</div>
+          <div class="a">抢占型 ≥ 3 款，包含 Top3 差评摘录。</div>
+        </div>
+        <div class="check-item">
+          <div class="n">3</div>
+          <div class="q">我的目标人群是谁？</div>
+          <div class="a">一句话能说清，绝对不是"所有人"。</div>
+        </div>
+        <div class="check-item">
+          <div class="n">4</div>
+          <div class="q">我的差异化主张在哪一点？</div>
+          <div class="a">"别人做了 X，我做 Y，因为……"</div>
+        </div>
+        <div class="check-item" style="grid-column: 1 / -1;">
+          <div class="n">5</div>
+          <div class="q">我打算独占哪 1–3 个渠道？</div>
+          <div class="a">想清楚自己能不能在这些渠道把货真正卖出去——不能就别报。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14: 收尾 -->
+    <section class="slide outro">
+      <div class="section-num">END</div>
+      <p class="quote">
+        这个组件不是让你<em>"申请做产品"</em>，<br>
+        是让你<em>"用公司的研发产能 + 渠道资源</em>，<br>
+        开一门自己的生意。"
+      </p>
+      <p class="signoff">
+        组件原文 · YY_024_20260420_产品开发提案_v1.0<br>
+        版本 v1.0 · 2026-04-20
+      </p>
+    </section>
+
+  </div>
+
+  <div class="nav">
+    <button class="nav-btn" id="btn-prev" onclick="prev()">‹</button>
+    <div class="nav-dots" id="dots"></div>
+    <button class="nav-btn" id="btn-next" onclick="next()">›</button>
+    <span class="nav-counter" id="counter">1 / 15</span>
+  </div>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let cur = 0;
+const visited = new Set([0]);
+
+const dotsBox = document.getElementById('dots');
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'nav-dot';
+  d.onclick = () => go(i);
+  dotsBox.appendChild(d);
+}
+const dots = dotsBox.querySelectorAll('.nav-dot');
+
+function render() {
+  slides.forEach((s, i) => s.classList.toggle('active', i === cur));
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i === cur);
+    d.classList.toggle('visited', visited.has(i) && i !== cur);
+  });
+  document.getElementById('counter').textContent = `${cur + 1} / ${total}`;
+  document.getElementById('btn-prev').disabled = cur === 0;
+  document.getElementById('btn-next').disabled = cur === total - 1;
+  document.querySelector('.stage').scrollTop = 0;
+}
+function go(i) { if (i < 0 || i >= total) return; cur = i; visited.add(i); render(); }
+function next() { go(cur + 1); }
+function prev() { go(cur - 1); }
+window.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+  if (e.key === 'Home') { go(0); }
+  if (e.key === 'End') { go(total - 1); }
+});
+render();
+</script>
+
+</body>
+</html>
